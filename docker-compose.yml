@@ -1,0 +1,12 @@
+version: '3'
+services:
+  web:
+    image: todo_django
+    build: .
+    container_name: todo_django_container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - .:/app
+    command: python3 manage.py runserver 0.0.0.0:8000

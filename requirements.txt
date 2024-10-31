@@ -1,0 +1,19 @@
+Django==5.1.2
+djangorestframework==3.14.0
+
+
+
+
+
+# Code quality
+black==23.9.1
+flake8==6.1.0
+mypy==1.5.1
+isort==5.12.0
+
+
+
+
+
+
+
