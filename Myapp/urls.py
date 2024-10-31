@@ -16,12 +16,15 @@ Including another URLconf
 """
 
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from . import views
 
 urlpatterns = [
-    path("task/create/",views.TaskListCreateAPIView.as_view()),
-    path("task/edit/<int:pk>",views.TaskRetrieveUpdateDestroyAPIView.as_view()),
-    path("case/create/", views.CaseListCreateAPIView.as_view()),
-    path("case/edit/<int:pk>", views.CaseRetrieveUpdateDestroyAPIView.as_view()),
+    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("tasks/", views.TaskListCreateAPIView.as_view()),
+    path("task/<int:pk>/", views.TaskRetrieveUpdateDestroyAPIView.as_view()),
+    path("cases/", views.CaseListCreateAPIView.as_view()),
+    path("case/<int:pk>/", views.CaseRetrieveUpdateDestroyAPIView.as_view()),
 ]

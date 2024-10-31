@@ -6,7 +6,7 @@ from .models import Case, Task
 class TaskAdmin(admin.ModelAdmin):
     model = Task
     fields = ["case", "title", "description", "user", "status"]
-    readonly_fields = ["creation_date","completed_date"]
+    readonly_fields = ["creation_date", "completed_date"]
 
 
 class CaseAdmin(admin.ModelAdmin):

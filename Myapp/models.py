@@ -1,7 +1,6 @@
-from django.utils import timezone
-
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -52,9 +51,10 @@ class Task(models.Model):
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
 
-    def save(self):
-        if self.status==self.StatusChoice.FINISHED:
-            self.completed_date=timezone.now()
+    def save(self, *args, **kwargs):
+        if self.status == self.StatusChoice.FINISHED:
+            self.completed_date = timezone.now()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.case.title} | {self.title} | {self.description} | {self.creation_date.strftime('%Y-%m-%d %H:%M')} | {self.status}"
