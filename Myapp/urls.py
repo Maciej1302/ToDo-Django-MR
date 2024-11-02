@@ -17,14 +17,23 @@ Including another URLconf
 
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from setuptools.extern import names
 
 from . import views
 
 urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("tasks/", views.TaskListCreateAPIView.as_view()),
-    path("task/<int:pk>/", views.TaskRetrieveUpdateDestroyAPIView.as_view()),
-    path("cases/", views.CaseListCreateAPIView.as_view()),
-    path("case/<int:pk>/", views.CaseRetrieveUpdateDestroyAPIView.as_view()),
+    path("tasks/", views.TaskListCreateAPIView.as_view(), name="tasks_list_create"),
+    path(
+        "task/<int:pk>/",
+        views.TaskRetrieveUpdateDestroyAPIView.as_view(),
+        name="task_retrieve_update_destroy",
+    ),
+    path("cases/", views.CaseListCreateAPIView.as_view(), name="cases_list_create"),
+    path(
+        "case/<int:pk>/",
+        views.CaseRetrieveUpdateDestroyAPIView.as_view(),
+        name="case_retrieve_update_destroy",
+    ),
 ]

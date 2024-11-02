@@ -9,7 +9,7 @@ class Case(models.Model):
         OPEN = "OPEN", _("Open case")
         CLOSED = "CLOSED", _("Closed case")
 
-    title = models.CharField(max_length=150, verbose_name="Case title")
+    title = models.CharField(max_length=150, verbose_name=_("Case title"))
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cases")
     status = models.CharField(
         max_length=30,
@@ -19,8 +19,8 @@ class Case(models.Model):
     )
 
     class Meta:
-        verbose_name = "Case"
-        verbose_name_plural = "Cases"
+        verbose_name = _("Case")
+        verbose_name_plural = _("Cases")
 
     def __str__(self):
         task_titles = ", ".join([task.title for task in self.tasks.all()])
@@ -48,13 +48,20 @@ class Task(models.Model):
     )
 
     class Meta:
-        verbose_name = "Task"
-        verbose_name_plural = "Tasks"
+        verbose_name = _("Task")
+        verbose_name_plural = _("Tasks")
 
     def save(self, *args, **kwargs):
-        if self.status == self.StatusChoice.FINISHED:
-            self.completed_date = timezone.now()
+        if self.pk:
+            if (
+                Task.objects.get(pk=self.pk).status != self.StatusChoice.FINISHED
+                and self.status == self.StatusChoice.FINISHED
+            ):
+                self.completed_date = timezone.now()
+        else:
+            if self.status == self.StatusChoice.FINISHED:
+                self.completed_date = timezone.now()
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.case.title} | {self.title} | {self.description} | {self.creation_date.strftime('%Y-%m-%d %H:%M')} | {self.status}"
+        return f"{self.case.title} | {self.title} | {self.description} | {self.creation_date} | {self.status}"
