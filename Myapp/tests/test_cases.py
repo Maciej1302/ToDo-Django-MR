@@ -18,58 +18,54 @@ class CaseAPITestCase(APITestCase):
         self.access_token = response.data["access"]
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.access_token)
 
-    def create_case(self, title="New test case", case_status="OPEN"):
-        """method for creating cases"""
+        self.case_1 = Case.objects.create(title="Open test case 1", status=Case.StatusChoice.OPEN, user=self.user)
+
+
+    def test_create_case(self):
         url = reverse("cases_list_create")
         data = {
-            "title": title,
-            "status": case_status,
+            "title": "New test case",
+            "status": "OPEN",
         }
         response = self.client.post(url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.case_id = Case.objects.first().id
-        return response.data
-
-    def test_create_case(self):
-        self.create_case()
-        self.assertEqual(Case.objects.count(), 1)
-        self.assertEqual(Case.objects.first().title, "New test case")
-        self.assertEqual(Case.objects.first().status, "OPEN")
+        self.assertEqual(Case.objects.count(), 2)
+        self.assertEqual(Case.objects.last().title, "New test case")
+        self.assertEqual(Case.objects.last().status, "OPEN")
 
     def test_retrieve_case(self):
-        self.create_case()
-        url = reverse("case_retrieve_update_destroy", args=[self.case_id])
+        url = reverse("case_retrieve_update_destroy", args=[self.case_1.id])
         response = self.client.get(url, format="json")
         self.assertEqual(Case.objects.count(), 1)
-        self.assertEqual(Case.objects.first().title, "New test case")
+        self.assertEqual(Case.objects.first().title, "Open test case 1")
         self.assertEqual(Case.objects.first().status, "OPEN")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+
     def test_retrieve_case_list(self):
-        self.create_case(title="New test case 1", case_status="OPEN")
-        self.create_case(title="New test case 2", case_status="CLOSED")
+        self.case_2 = Case.objects.create(title="Open test case 2", status=Case.StatusChoice.OPEN, user=self.user)
         url = reverse("cases_list_create")
         response = self.client.get(url, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
-        self.assertEqual(response.data[0]["title"], "New test case 1")
+        self.assertEqual(response.data[0]["title"], "Open test case 1")
         self.assertEqual(response.data[0]["status"], "OPEN")
-        self.assertEqual(response.data[1]["title"], "New test case 2")
-        self.assertEqual(response.data[1]["status"], "CLOSED")
+        self.assertEqual(response.data[1]["title"], "Open test case 2")
+        self.assertEqual(response.data[1]["status"], "OPEN")
 
-    def test_update_case(selfs):
-        selfs.create_case()
+
+    def test_update_case(self):
         updated_data = {"status": "CLOSED"}
-        url = reverse("case_retrieve_update_destroy", args=[selfs.case_id])
-        response = selfs.client.patch(url, updated_data, format="json")
-        selfs.assertEqual(response.status_code, status.HTTP_200_OK)
-        case = Case.objects.get(id=selfs.case_id)
+        url = reverse("case_retrieve_update_destroy", args=[self.case_1.id])
+        response = self.client.patch(url, updated_data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        case = Case.objects.get(id=self.case_1.id)
         case.refresh_from_db()
-        selfs.assertEqual(case.status, "CLOSED")
+        self.assertEqual(case.status, "CLOSED")
 
-    def test_delete_case(selfs):
-        selfs.test_create_case()
-        url = reverse("case_retrieve_update_destroy", args=[selfs.case_id])
-        response = selfs.client.delete(url)
-        selfs.assertEqual(Case.objects.count(), 0)
-        selfs.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_case(self):
+        url = reverse("case_retrieve_update_destroy", args=[self.case_1.id])
+        response = self.client.delete(url)
+        self.assertEqual(Case.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
