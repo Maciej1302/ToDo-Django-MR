@@ -18,7 +18,7 @@ git clone <repository-url>
 cd <repository-folder>
 ```
 
-### 2. First-time Setup - Initial Application Launch Instructions (TODO-Django-MR)
+### 2. First-time Setup - Initial Application Launch Instructions
 
 To set up and launch the application for the first time, follow these steps:
 
