@@ -9,6 +9,8 @@ services:
     volumes:
       - db_data:/app/db
       - app_data:/app
+    env_file:
+      - .env
     command: python3 manage.py runserver 0.0.0.0:8000
 
 
