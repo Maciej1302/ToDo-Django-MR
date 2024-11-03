@@ -54,15 +54,15 @@ Once the container is running, you can access the application by navigating to:
 
 http://0.0.0.0:8000/todo/api/token/ to obtain refresh and access token
 
-http://0.0.0.0:8000/todo/api/token/refresh to refresh access token
+http://0.0.0.0:8000/todo/api/token/refresh/ to refresh access token
 
-http://0.0.0.0:8000/todo/tasks to list tasks or create task
+http://0.0.0.0:8000/todo/tasks/ to list tasks or create task
 
-http://0.0.0.0:8000/todo/task/{pk} to retrieve/update/destroy task
+http://0.0.0.0:8000/todo/task/{pk}/ to retrieve/update/destroy task
 
-http://0.0.0.0:8000/todo/cases to list cases or create case
+http://0.0.0.0:8000/todo/cases/ to list cases or create case
 
-http://0.0.0.0:8000/todo/case/{pk} to retrieve/update/destroy case
+http://0.0.0.0:8000/todo/case/{pk}/ to retrieve/update/destroy case
 
 
 
