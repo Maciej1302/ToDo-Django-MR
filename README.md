@@ -18,26 +18,54 @@ git clone <repository-url>
 cd <repository-folder>
 ```
 
-### 2. Build and run the application
+### 2. First-time Setup - Initial Application Launch Instructions (TODO-Django-MR)
 
-You can build and start the application using Docker Compose:
+To set up and launch the application for the first time, follow these steps:
 
-```bash
-make build
-make up
-```
+1. **Create a .env file** in the application directory and add your Django secret key:
+    ```
+    SECRET_KEY=your_secret_key_here
+    ```
+   
+2. **Build the Docker container** by running:
+    ```bash
+    make build
+    ```
 
-This will:
-- Build the Docker image as specified in the Dockerfile.
-- Start the Django development server on http://localhost:8000.
+3. **Start the application** on port `http://0.0.0.0:8000/` by running:
+    ```bash
+    make up
+    ```
 
-> **Note:** The server is configured to run on port 8000. If this port is already in use, you may need to modify the port mapping in the `docker-compose.yml` file.
+4. **Run database migrations** to set up the initial database schema:
+    ```bash
+    docker compose exec web python3 manage.py migrate
+    ```
+
+5. **Create a superuser** to access the admin panel and manage application users:
+    ```bash
+    docker compose exec web python3 manage.py createsuperuser
+    ```
+    Follow the prompts to set up an admin username and password.
 
 ### 3. Accessing the Application
 
 Once the container is running, you can access the application by navigating to:
 
-http://localhost:8000
+http://0.0.0.0:8000/todo/api/token/ to obtain refresh and access token
+
+http://0.0.0.0:8000/todo/api/token/refresh to refresh access token
+
+http://0.0.0.0:8000/todo/tasks to list tasks or create task
+
+http://0.0.0.0:8000/todo/task/{pk} to retrieve/update/destroy task
+
+http://0.0.0.0:8000/todo/cases to list cases or create case
+
+http://0.0.0.0:8000/todo/case/{pk} to retrieve/update/destroy case
+
+
+
 
 ### 4. Running Tests
 
@@ -51,7 +79,6 @@ make test
 
 This project includes dependencies for code quality checks. You can run these checks using the following command:
 
-
 ```bash
 make supercode
 ```
@@ -64,7 +91,7 @@ make supercode
 
 ## Dependencies
 
-Dependencies are listed in `requirements.txt` and include:
+Dependencies are listed in requirements.txt and include:
 
 - **Django 5.1.2** - The web framework.
 - **Django REST Framework 3.14.0** - A toolkit for building Web APIs.
@@ -83,7 +110,3 @@ The application uses JWT (JSON Web Token) authentication provided by **Django RE
 ## Views and API
 
 The REST API in this application is structured using **Django REST Framework’s Generic Class-Based Views**. This setup provides a streamlined way to create CRUD (Create, Read, Update, Delete) functionality for the API endpoints with minimal code while following DRF’s best practices.
-
-## Database
-
-The application uses a SQLite database, which is saved as `db.sqlite3` in the project directory. The database file is mapped to persist data even when the container restarts.
