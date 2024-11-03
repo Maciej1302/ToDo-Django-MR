@@ -87,7 +87,15 @@ class Task(models.Model):
         verbose_name_plural = _("Tasks")
 
     def save(self, *args, **kwargs):
+        """
+         Overrides the save method to set the completed_date field.
+         If the task status changes to 'FINISHED',
+         the completed_date is set to the current date and time.
 
+         Args:
+             *args: Additional positional arguments.
+             **kwargs: Additional keyword arguments.
+         """
         if self.pk:
             if (
                 Task.objects.get(pk=self.pk).status != self.StatusChoice.FINISHED
