@@ -18,7 +18,7 @@ class CaseAPITestCase(APITestCase):
             {"username": "testuser", "password": "testpassword"},
         )
         self.access_token = response.data["access"]
-        self.client.credentials(HTTP_AUTHORIZATION="Bearer " + self.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
         self.case_1 = Case.objects.create(
             title="Open test case 1", status=Case.StatusChoice.OPEN, user=self.user
         )
