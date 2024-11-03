@@ -3,7 +3,7 @@ services:
   web:
     image: todo_django
     build: .
-    container_name: todo_django_container
+    container_name: todo_django_container1
     ports:
       - "8000:8000"
     volumes:

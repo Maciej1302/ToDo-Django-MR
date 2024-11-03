@@ -28,8 +28,8 @@ make up
 ```
 
 This will:
-- Build the Docker image as specified in the `Dockerfile`.
-- Start the Django development server on `http://localhost:8000`.
+- Build the Docker image as specified in the Dockerfile.
+- Start the Django development server on http://localhost:8000.
 
 > **Note:** The server is configured to run on port 8000. If this port is already in use, you may need to modify the port mapping in the `docker-compose.yml` file.
 
@@ -37,34 +37,24 @@ This will:
 
 Once the container is running, you can access the application by navigating to:
 
-```
 http://localhost:8000
-```
-### 4. To run tests for the application, you can use the Django test framework with the following command:
-```
-python3 manage.py test
+
+### 4. Running Tests
+
+To run tests for the application, you can use the following command:
+
+```bash
+make test
 ```
 
-### 5. Code Quality and Linting
+### 5. Code Quality
 
-This project includes dependencies for code quality checks. You can run these checks locally (outside of Docker) using the following commands:
+This project includes dependencies for code quality checks. You can run these checks using the following command:
 
-- **Black**: Format code according to PEP 8 standards.
-    ```bash
-    black .
-    ```
-- **Flake8**: Check for code style issues.
-    ```bash
-    flake8 .
-    ```
-- **Mypy**: Perform static type checking.
-    ```bash
-    mypy .
-    ```
-- **Isort**: Sort imports in the code.
-    ```bash
-    isort .
-    ```
+
+```bash
+make supercode
+```
 
 ## Project Structure
 
@@ -84,8 +74,15 @@ Dependencies are listed in `requirements.txt` and include:
 
 - **Black**: Code formatter.
 - **Flake8**: Code style enforcer.
-- **Mypy**: Static type checker.
 - **Isort**: Import sorter.
+
+## Authentication
+
+The application uses JWT (JSON Web Token) authentication provided by **Django REST Framework Simple JWT**. This ensures secure token-based authentication for users accessing the API.
+
+## Views and API
+
+The REST API in this application is structured using **Django REST Framework’s Generic Class-Based Views**. This setup provides a streamlined way to create CRUD (Create, Read, Update, Delete) functionality for the API endpoints with minimal code while following DRF’s best practices.
 
 ## Database
 

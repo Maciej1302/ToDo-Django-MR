@@ -13,5 +13,7 @@ supercode:
 	isort .
 	black .
 	flake8 .
-	mypy .
+
+test:
+	python3 manage.py test
 

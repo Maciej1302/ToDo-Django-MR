@@ -34,7 +34,7 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     - `GET`: Returns a single task item.
     - `DELETE`: Destroy a single task item.
-    - `UPDATE`: UPDATE a single task item.
+    - `PUT/PATCH`: UPDATE a single task item.
     """
 
     serializer_class = TaskSerializer
@@ -48,7 +48,7 @@ class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class CaseListCreateAPIView(generics.ListCreateAPIView):
     """
-     View to list all tasks or create a new case item.
+     View to list all cases or create a new case item.
 
     - `GET`: Returns a list of all cases.
     - `POST`: Creates a new case item.
@@ -75,7 +75,7 @@ class CaseRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     - `GET`: Returns a single case item.
     - `DELETE`: Destroy a single case item.
-    - `UPDATE`: UPDATE a single case item.
+    - `PUT/PATCH`: UPDATE a single case item.
     """
 
     serializer_class = CaseSerializer
